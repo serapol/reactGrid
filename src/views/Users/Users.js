@@ -2,6 +2,7 @@ import './styles.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button } from '../../components';
+import { formatPhone } from '../../helpers/formats';
 
 class UsersView extends Component {
   removeUser = (user) => {
@@ -36,7 +37,7 @@ class UsersView extends Component {
         {header: 'E-mail', field: 'email'},
       ],
 
-      rows: users
+      rows: users,
     };
 
     return (
@@ -44,16 +45,24 @@ class UsersView extends Component {
         <h1>Users</h1>
         <Grid
           data={gridData}
-          onRowClick={this.editUser}
-          onCellClick={this.handleCellClick}
-          actions={
+          formatDataRules={{
+            phone: formatPhone,
+          }}
+          actions={[
             <Button
-              className="close"
+              key="edit-btn"
+              onClick={this.editUser}
+            >
+              <span className="glyphicon glyphicon-pencil"/>
+            </Button>,
+            <Button
+              key="remove-btn"
               onClick={this.removeUser}
             >
-              <span aria-hidden="true">&times;</span>
-            </Button>
-          }
+              <span className="glyphicon glyphicon-trash"/>
+            </Button>,
+          ]}
+          onCellClick={this.handleCellClick}
         />
         <div className="row">
           <Button

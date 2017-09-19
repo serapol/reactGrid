@@ -19,7 +19,10 @@ export default function (state = initialState, action) {
         ]};
     case actionTypes.REMOVE_USER: {
       const newState = {...state};
-      return newState.data = state.data.filter((user) => user.id !== action.id);
+
+      newState.data = state.data.filter((user) => user.id !== action.id);
+
+      return newState;
     }
     case actionTypes.EDIT_USER: {
       const newState = {...state};

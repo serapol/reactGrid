@@ -25,23 +25,47 @@ class UserView extends Component {
     }
   };
 
+  componentDidMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  updateStateFromProps(props) {
+    const { user } = props.redux.state;
+
+    this.setState({
+      formData: {
+        name: user ? user.name : '',
+        phone: user ? user.phone : '',
+        email: user ? user.email : '',
+      }
+    });
+  }
+
   handleSubmit = (e) => {
-    const { addUser } = this.props.redux.actions.UsersActions;
-    const { linkTo, showNotification } = this.props.redux.actions.GenericActions;
     const { validate } = this.props;
-    const { user } = this.props.redux.state;
     const { formData } = this.state;
+    const { user } = this.props.redux.state;
+    const { addUser, editUser } = this.props.redux.actions.UsersActions;
+    const { linkTo, showNotification } = this.props.redux.actions.GenericActions;
     const isNew = !user;
 
     e.preventDefault();
 
     if (!validate(formData)) return;
 
-    addUser(this.state.formData)
-      .then(() => {
-        showNotification(isNew ? 'User was successfully added' : 'User was successfully saved');
-        linkTo('/');
-      });
+    if (isNew) {
+      addUser(this.state.formData)
+        .then(() => {
+          showNotification('User was successfully added');
+          linkTo('/');
+        });
+    } else {
+      editUser(user.id, this.state.formData)
+        .then(() => {
+          showNotification('User was successfully saved');
+          linkTo('/');
+        });
+    }
   };
 
   handleInputChange = (fieldValue, fieldName) => {

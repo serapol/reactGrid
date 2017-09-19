@@ -62,6 +62,7 @@ Button.propTypes = {
 Button.defaultProps = {
   focused: false,
   disabled: false,
+  type: 'default',
 };
 
 export default Button;

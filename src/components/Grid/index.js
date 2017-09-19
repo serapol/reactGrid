@@ -1,3 +1,4 @@
+import './style.scss';
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import {
@@ -18,8 +19,10 @@ class Grid extends Component {
 
   selectCell = (row, col) => {
     this.setState({
-      row,
-      col,
+      selectedCell: {
+        row,
+        col,
+      }
     });
   };
 
@@ -27,9 +30,11 @@ class Grid extends Component {
     const { actions } = this.props;
     const modifyElement = (element) => React.cloneElement(element, {
       onClick: (e) => {
-        if (element.onClick) {
+        const { onClick } = element.props;
+
+        if (onClick) {
           e.stopPropagation();
-          element.onClick(data);
+          onClick(data);
         }
       }
     });
@@ -81,6 +86,7 @@ class Grid extends Component {
       actions,
       onCellClick,
       onRowClick,
+      formatDataRules,
     } = this.props;
     const {
       selectedCell,
@@ -113,12 +119,14 @@ class Grid extends Component {
           {columns.map((column, colIndex) => {
             const fieldName = column.field;
             const fieldValue = row[fieldName];
-            const handleClick = (fieldName, fieldValue) => () => {
+            const isSelected = selectedCell.row === rowIndex
+              && selectedCell.col === colIndex;
+            const handleClick = (e) => {
+              e.stopPropagation();
               this.selectCell(rowIndex, colIndex);
               onCellClick(fieldName, fieldValue);
             };
-            const isSelected = selectedCell.row === rowIndex
-                                && selectedCell.col === colIndex;
+            const formatDataHandler = formatDataRules[fieldName];
 
             return (
               <TableCell
@@ -128,13 +136,15 @@ class Grid extends Component {
                 })}
                 onClick={handleClick}
               >
-                {fieldValue}
+                {formatDataHandler ? formatDataHandler(fieldValue) : fieldValue}
               </TableCell>
             );
           })}
           {actions &&
           <TableCell>
-            {this.getModifiedActions(row)}
+            <div className="actions-cell">
+              {this.getModifiedActions(row)}
+            </div>
           </TableCell>
           }
         </TableRow>
@@ -147,6 +157,7 @@ class Grid extends Component {
     const {
       className,
       data, // eslint-disable-line no-unused-vars
+      formatDataRules, // eslint-disable-line no-unused-vars
       onRowClick, // eslint-disable-line no-unused-vars
       onCellClick, // eslint-disable-line no-unused-vars
       actions, // eslint-disable-line no-unused-vars
@@ -172,6 +183,7 @@ class Grid extends Component {
 
 Grid.propTypes = {
   data: PropTypes.object.isRequired,
+  formatDataRules: PropTypes.object,
   actions: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array,
@@ -182,6 +194,7 @@ Grid.propTypes = {
 };
 
 Grid.defaultProps = {
+  formatDataRules: {},
   onRowClick: function () {},
   onCellClick: function () {},
 };

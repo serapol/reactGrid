@@ -1,0 +1,15 @@
+@import "../../styles/variables";
+
+.grid {
+  td.selected {
+    background: $state-success-bg;
+  }
+
+  .actions-cell {
+    text-align: right;
+
+    .btn {
+      margin-left: 10px;
+    }
+  }
+}

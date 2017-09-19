@@ -1,0 +1,6 @@
+export const ADD_USER = 'ADD_USER';
+export const REMOVE_USER = 'REMOVE_USER';
+export const EDIT_USER = 'EDIT_USER';
+
+export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
+export const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';

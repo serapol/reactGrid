@@ -1,0 +1,83 @@
+@import "./bootstrap";
+@import "./variables";
+
+html {
+  font-size: 10px;
+  -webkit-text-size-adjust: 100%;
+  /* Font varient */
+  font-variant-ligatures: none;
+  -webkit-font-variant-ligatures: none;
+  /* Smoothing */
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+body {
+  line-height: normal;
+  font-size: 14px;
+  color: #333;
+  background-color: $body-bg;
+}
+
+html,
+body,
+#root,
+.app-wrapper,
+.content-wrapper {
+  height:100%;
+}
+
+.content-wrapper {
+  padding: $header-height 0 $footer-height 0;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  transition: color .25s;
+}
+
+h1 {
+  font-size: 3.6rem;
+  color: #565656;
+}
+
+h2, h3 {
+  font-size: 2.4rem;
+}
+
+svg {
+  transition: fill .25s;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $primary-color-hover;
+  }
+
+  &:active {
+    color: $primary-color-active;
+  }
+}
+
+.not-allowed {
+  cursor: not-allowed!important;
+}
+
+.page-content {
+  padding: 4rem;
+}

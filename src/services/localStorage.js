@@ -1,6 +1,6 @@
 export default {
   get(key) {
-    let value = localStorage.getItem(key);
+    let value = window.localStorage.getItem(key);
 
     if (!value) {return null;}
 
@@ -22,14 +22,14 @@ export default {
       value = JSON.stringify(value);
     }
 
-    localStorage.setItem(key, value);
+    window.localStorage.setItem(key, value);
   },
 
   remove(key) {
-    localStorage.removeItem(key);
+    window.localStorage.removeItem(key);
   },
 
   clear() {
-    localStorage.clear();
+    window.localStorage.clear();
   },
 };

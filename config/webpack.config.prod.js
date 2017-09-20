@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 // App files location
 const PATHS = {
@@ -12,6 +13,11 @@ const PATHS = {
 };
 
 const plugins = [
+  new CleanWebpackPlugin(['build'], {
+    root:     path.resolve(__dirname, '../'),
+    verbose:  true,
+    dry:      false
+  }),
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -66,13 +72,20 @@ module.exports = {
       },
       {
         test: /\.scss/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!' + 'sass-loader')
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!' + 'sass-loader',
+          {publicPath: '../'}
+        )
       },
 
       {
         test: /\.css$/,
-        //include: PATHS.styles,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!' + 'postcss-loader')
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!' + 'postcss-loader',
+          {publicPath: '../'}
+        )
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {

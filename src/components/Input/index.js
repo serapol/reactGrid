@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class Input extends Component {
   state = {
-    validationState: this.props.validationState,
-    showPassword: false
+    validationState: this.props.validationState
   };
 
   componentWillReceiveProps(nextProps) {
@@ -15,19 +15,6 @@ class Input extends Component {
     }
   }
 
-  value(value) {
-    if (value) {
-      this.inputNode.value = value;
-      return value;
-    }
-
-    return this.inputNode.value;
-  }
-
-  focus() {
-    this.inputNode.focus();
-  }
-
   getInputNode() {
     return this.inputNode;
   }
@@ -36,15 +23,8 @@ class Input extends Component {
     const input = e.target;
     const value = this.props.trimValue ? input.value.trim() : input.value;
     const inputName = input.name;
-    const isValid = this.props.validate(value);
 
     this.props.onInput(value, inputName, e);
-
-    if (isValid !== null) {
-      this.setState({
-        validationState: isValid ? 'success' : 'error'
-      });
-    }
   };
 
   handleBlurInput = (e) => {
@@ -53,18 +33,6 @@ class Input extends Component {
     }
 
     this.props.onBlur(e);
-  };
-
-  toggleShowPassword = () => {
-    if (!this.inputNode.value
-      && !this.state.showPassword
-    ) {
-      return;
-    }
-
-    this.setState({
-      showPassword: !this.state.showPassword
-    });
   };
 
   render() {
@@ -77,9 +45,9 @@ class Input extends Component {
       errorMessage,
       validationState, // eslint-disable-line no-unused-vars
       trimValue, // eslint-disable-line no-unused-vars
-      validate, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
+    const isInvalid = this.state.validationState === 'error';
 
     return (
       <div
@@ -102,7 +70,7 @@ class Input extends Component {
           onInput={this.handleInput}
           onBlur={this.handleBlurInput}
         />
-        {errorMessage &&
+        {isInvalid && errorMessage &&
         <div className="help-block">
           {errorMessage}
         </div>
@@ -128,12 +96,11 @@ Input.propTypes = {
   trimValue: PropTypes.bool,
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
-  validationState: React.PropTypes.oneOf([
+  validationState: PropTypes.oneOf([
     'success',
     'error',
     ''
   ]),
-  validate: React.PropTypes.func,
   onKeyDown: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
@@ -150,7 +117,6 @@ Input.defaultProps = {
   trimValue: true,
   readOnly: false,
   disabled: false,
-  validate: function () { return null; },
   onInput: function () {},
   onChange: function () {},
   onKeyDown: function () {},

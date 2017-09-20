@@ -53,11 +53,6 @@ module.exports = {
         include: PATHS.app
       },
       {
-        test: /\.js$/,
-        loaders: ['imports?define=>false'],
-        exclude: /node_modules/
-      },
-      {
         test: /\.scss/,
         loader: 'style!css!sass'
       },

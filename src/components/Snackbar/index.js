@@ -80,7 +80,7 @@ class Snackbar extends Component {
           {...otherProps}
           className={classNames(
             BASE_CLASS_NAME,
-            `${type}`,
+            type,
             {
               'show': show
             }

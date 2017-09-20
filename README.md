@@ -7,7 +7,7 @@
 
 #### <a name="running"></a> Install the app
 
-1. `npm install` from root.
+- `npm install` from root.
 
 #### Running the app 
 

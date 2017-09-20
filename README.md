@@ -5,7 +5,7 @@
 - [x] [Redux](https://github.com/reactjs/redux).
 - [x] [Bootstrap Styles](https://getbootstrap.com/docs/3.3/css/).
 
-## <a name="running"></a> Install the app
+#### <a name="running"></a> Install the app
 
 1. `npm install` from root.
 
@@ -17,3 +17,6 @@ With Webpack-dev-server:
 
 #### Production build 
 - `npm run build`.
+
+#### Testing 
+- `npm run test`.
